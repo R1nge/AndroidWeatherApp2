@@ -44,7 +44,7 @@ class DefaultLocationTracker @Inject constructor(
                         cancellableContinuation.resume(
                             LocationData(
                                 longitude = result.longitude,
-                                altitude = result.altitude
+                                latitude = result.latitude
                             )
                         )
                     } else {
@@ -57,7 +57,7 @@ class DefaultLocationTracker @Inject constructor(
                     cancellableContinuation.resume(
                         LocationData(
                             longitude = result.longitude,
-                            altitude = result.altitude
+                            latitude = result.latitude
                         )
                     )
                 }
