@@ -8,14 +8,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-class RepositoryModule {
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class RepositoryModule {
 
-    @Module
-    @InstallIn(SingletonComponent::class)
-    abstract class RepositoryModule {
-
-        @Binds
-        @Singleton
-        abstract fun bindWeatherRepository(weatherRepositoryImpl: WeatherRepositoryImpl): WeatherRepository
-    }
+    @Binds
+    @Singleton
+    abstract fun bindWeatherRepository(weatherRepositoryImpl: WeatherRepositoryImpl): WeatherRepository
 }

@@ -9,9 +9,11 @@ import androidx.lifecycle.viewModelScope
 import com.r1nge.weatherapp.domain.location.LocationTracker
 import com.r1nge.weatherapp.domain.repository.WeatherRepository
 import com.r1nge.weatherapp.domain.util.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class WeatherViewModel @Inject constructor(
     private val repository: WeatherRepository,
     private val locationTracker: LocationTracker
