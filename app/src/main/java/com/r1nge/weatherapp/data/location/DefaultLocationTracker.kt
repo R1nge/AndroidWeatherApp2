@@ -56,8 +56,8 @@ class DefaultLocationTracker @Inject constructor(
                 addOnSuccessListener {
                     cancellableContinuation.resume(
                         LocationData(
-                            longitude = result.longitude,
-                            latitude = result.latitude
+                            longitude = it.longitude,
+                            latitude = it.latitude
                         )
                     )
                 }
