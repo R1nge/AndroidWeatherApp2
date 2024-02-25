@@ -15,6 +15,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,17 +26,25 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.r1nge.weatherapp.R
+import com.r1nge.weatherapp.domain.weather.WeatherData
 import com.r1nge.weatherapp.presentation.ui.theme.MainTextColor
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
 @Composable
 fun WeatherCard(
-    state: WeatherState,
+    weatherData: WeatherData?,
     backgroundColor: Color,
     modifier: Modifier = Modifier
 ) {
-    state.weatherInfo?.currentWeatherData?.let { weatherData ->
+
+    weatherData?.let { data ->
+        val formattedTime = remember(data) {
+            data.time.format(
+                DateTimeFormatter.ofPattern("HH:mm")
+            )
+        }
+
         Card(
             shape = RoundedCornerShape(10.dp),
             colors = CardDefaults.cardColors(
@@ -43,7 +52,7 @@ fun WeatherCard(
             ),
             modifier = modifier
                 .padding(16.dp)
-                //.background(backgroundColor)
+            //.background(backgroundColor)
         ) {
             Column(
                 modifier = Modifier
@@ -52,11 +61,7 @@ fun WeatherCard(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Today ${
-                        weatherData.time.format(
-                            DateTimeFormatter.ofPattern("HH:mm")
-                        )
-                    }",
+                    text = "Today $formattedTime",
                     modifier = Modifier.align(Alignment.End),
                     color = MainTextColor
                 )
@@ -64,15 +69,15 @@ fun WeatherCard(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Image(
-                    painter = painterResource(id = weatherData.weatherType.iconRes),
-                    contentDescription = weatherData.weatherType.weatherDesc,
+                    painter = painterResource(id = data.weatherType.iconRes),
+                    contentDescription = data.weatherType.weatherDesc,
                     modifier = Modifier.width(200.dp)
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "${weatherData.temperatureCelsius} °C",
+                    text = "${data.temperatureCelsius} °C",
                     color = MainTextColor,
                     fontSize = 50.sp
                 )
@@ -80,7 +85,7 @@ fun WeatherCard(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = weatherData.weatherType.weatherDesc,
+                    text = data.weatherType.weatherDesc,
                     fontSize = 20.sp,
                     color = MainTextColor
                 )
@@ -92,7 +97,7 @@ fun WeatherCard(
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
                     WeatherDataDisplay(
-                        value = weatherData.pressure.roundToInt(),
+                        value = data.pressure.roundToInt(),
                         unit = "hpa",
                         icon = ImageVector.vectorResource(id = R.drawable.ic_pressure),
                         iconTint = Color.White,
@@ -101,7 +106,7 @@ fun WeatherCard(
 
 
                     WeatherDataDisplay(
-                        value = weatherData.humidity.roundToInt(),
+                        value = data.humidity.roundToInt(),
                         unit = "%",
                         icon = ImageVector.vectorResource(id = R.drawable.ic_drop),
                         iconTint = Color.White,
@@ -110,7 +115,7 @@ fun WeatherCard(
 
 
                     WeatherDataDisplay(
-                        value = weatherData.windSpeed.roundToInt(),
+                        value = data.windSpeed.roundToInt(),
                         unit = "km/h",
                         icon = ImageVector.vectorResource(id = R.drawable.ic_wind),
                         iconTint = Color.White,

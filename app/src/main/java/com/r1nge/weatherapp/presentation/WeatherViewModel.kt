@@ -25,7 +25,7 @@ class WeatherViewModel @Inject constructor(
     fun loadWeatherInfo() {
         viewModelScope.launch {
             state = state.copy(
-                isLoading = false,
+                isLoading = true,
                 error = null
             )
             locationTracker.getCurrentLocation()?.let { locationData ->
